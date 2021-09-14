@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize')
-const { STRING, INTEGER, ARRAY, FLOAT } = DataTypes
+const { STRING, INTEGER, ARRAY, DECIMAL } = DataTypes
 
 class Character extends Model() { };
 Character.init({
@@ -16,7 +16,7 @@ Character.init({
         allowNull: false,
     },
     weight: {
-        type: FLOAT,
+        type: DECIMAL,
         allowNull: false,
     },
     story: {
