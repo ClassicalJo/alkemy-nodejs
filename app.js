@@ -6,6 +6,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var sequelize = require('./sequelize/index')
+sequelize.authenticate()
+    .then(() => console.log('success'))
+    .catch(err => console.error('fail', err))
 var app = express();
 
 app.use(logger('dev'));
