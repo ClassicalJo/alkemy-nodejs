@@ -1,10 +1,10 @@
 const { DataTypes, Model } = require('sequelize')
-const { STRING, DATE, INTEGER, ARRAY } = DataTypes
+const { STRING, DATE, INTEGER, ARRAY, URL } = DataTypes
 
 class Movie extends Model { }
 Movie.init({
     image: {
-        type: STRING,
+        type: URL,
         allowNull: false,
     },
     title: {
@@ -23,7 +23,7 @@ Movie.init({
             max: 5,
         }
     },
-    associatedCharacters: {
+    relatedCharacters: {
         type: ARRAY,
         allowNull: false,
     }    
