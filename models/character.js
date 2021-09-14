@@ -1,10 +1,10 @@
 const { DataTypes, Model } = require('sequelize')
-const { STRING, INTEGER, ARRAY, DECIMAL } = DataTypes
+const { STRING, INTEGER, ARRAY, DECIMAL, URL } = DataTypes
 
 class Character extends Model() { };
 Character.init({
     image: {
-        type: STRING,
+        type: URL,
         allowNull: false,
     },
     name: {
