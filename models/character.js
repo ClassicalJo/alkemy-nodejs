@@ -1,29 +1,30 @@
 const { DataTypes, Model } = require('sequelize')
+const { STRING, INTEGER, ARRAY, FLOAT } = DataTypes
 
 class Character extends Model() { };
 Character.init({
     image: {
-        type: DataTypes.STRING,
+        type: STRING,
         allowNull: false,
     },
     name: {
-        type: DataTypes.STRING,
+        type: STRING,
         allowNull: false,
     },
     age: {
-        type: DataTypes.INTEGER,
+        type: INTEGER,
         allowNull: false,
     },
     weight: {
-        type: DataTypes.FLOAT,
+        type: FLOAT,
         allowNull: false,
     },
     story: {
-        type: DataTypes.STRING,
+        type: STRING,
         allowNull: false,
     },
     movies: {
-        type: DataTypes.ARRAY,
+        type: ARRAY,
         allowNull: false,
     }
 })
