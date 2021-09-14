@@ -28,3 +28,5 @@ Movie.init({
         allowNull: false,
     }    
 })
+
+module.exports = Movie
