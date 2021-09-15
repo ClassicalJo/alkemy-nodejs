@@ -4,9 +4,14 @@ var cookieParser = require('cookie-parser');
 
 var logger = require('morgan');
 var auth0 = require('./authentication/auth0')
+var guard = require('express-jwt-permissions')()
 
 var authRouter = require('./routes/auth')
+var charactersRouter = require('./routes/characters')
+var moviesRouter = require('./routes/movies')
+
 var sequelize = require('./sequelize/index');
+
 
 sequelize.authenticate()
     .then(() => console.log('success'))
@@ -21,9 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(auth0)
 
-app.get('/', (req, res) => {
-    console.log('/')
-})
+app.use('/characters', charactersRouter)
+app.use('/movies', moviesRouter)
 app.use('/auth', authRouter)
 
 module.exports = app;
