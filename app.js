@@ -4,11 +4,10 @@ var cookieParser = require('cookie-parser');
 
 var logger = require('morgan');
 var auth0 = require('./authentication/auth0')
+var authenticate = require('./authentication/middleware');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var sequelize = require('./sequelize/index');
 
-var sequelize = require('./sequelize/index')
 sequelize.authenticate()
     .then(() => console.log('success'))
     .catch(err => console.error('fail', err))
@@ -21,7 +20,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(auth0)
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(authenticate)
+
+
+app.get('/', (req, res) => {
+    console.log(req.oidc.isAuthenticated())
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
+})
 
 module.exports = app;
