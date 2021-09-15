@@ -6,6 +6,7 @@ var logger = require('morgan');
 var authRouter = require('./routes/auth')
 var charactersRouter = require('./routes/characters')
 var moviesRouter = require('./routes/movies')
+var indexRouter = require('./routes/index')
 
 var sequelize = require('./sequelize/index');
 const authenticate = require('./authentication/middleware');
@@ -26,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/characters', charactersRouter)
 app.use('/movies', moviesRouter)
 app.use('/auth', authRouter)
-
-
+app.use('/', indexRouter)
 
 module.exports = app
