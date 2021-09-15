@@ -21,12 +21,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.use('/characters', charactersRouter)
 app.use('/movies', moviesRouter)
 app.use('/auth', authRouter)
 app.use('/', indexRouter)
+
 
 module.exports = app
