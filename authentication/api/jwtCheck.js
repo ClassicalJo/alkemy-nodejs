@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var jwt = require('express-jwt');
 var jwks = require('jwks-rsa');
-// var guard = require('express-jwt-permissions')()
+
 var port = process.env.PORT || 8080;
 
 var jwtCheck = jwt({
@@ -19,7 +19,7 @@ var jwtCheck = jwt({
 
 app.use(jwtCheck);
 
-app.get('/authorized',function (req, res) {
+app.get('/authorized', function (req, res) {
     res.json({ jwtCheck: "You got to the jwtCheck" })
 });
 
