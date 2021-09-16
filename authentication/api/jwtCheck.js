@@ -1,7 +1,11 @@
+var express = require('express');
+var app = express();
 var jwt = require('express-jwt');
 var jwks = require('jwks-rsa');
+// var guard = require('express-jwt-permissions')()
+var port = process.env.PORT || 8080;
 
-var auth0 = jwt({
+var jwtCheck = jwt({
     secret: jwks.expressJwtSecret({
         cache: true,
         rateLimit: true,
@@ -13,4 +17,10 @@ var auth0 = jwt({
     algorithms: ['RS256']
 });
 
-module.exports = auth0
+app.use(jwtCheck);
+
+app.get('/authorized',function (req, res) {
+    res.json({ jwtCheck: "You got to the jwtCheck" })
+});
+
+app.listen(port);
