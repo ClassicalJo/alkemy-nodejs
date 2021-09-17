@@ -13,8 +13,8 @@ router.put('/', (req, res, next) => {
     
     Character.update(editValues, { where: { id } })
         .then(response => {
-            response == 0 && res.status(200).send("Character ID not found")
-            response !== 0 && res.status(200).send("Character succesfully updated")
+            response[0] == 0 && res.status(200).send("Character ID not found")
+            response[0] !== 0 && res.status(200).send("Character succesfully updated")
         })
         .catch(err => next(err))
 })
