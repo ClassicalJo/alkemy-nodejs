@@ -1,11 +1,15 @@
+var express = require('express')
 var axios = require('axios')
-let post = (req, res, next) => {
+var router = express.Router()
+
+router.get('/', (req, res, next) => {
     let APIEndpoint = process.env.API_URL + '/characters'
     let options = { headers: { 'Authorization': req.headers.authorization } }
+
     axios
-        .post(APIEndpoint, req.body, options)
+        .get(APIEndpoint, options)
         .then(response => res.json(response.data))
         .catch(err => res.json({ error: 'error', message: err.message }))
-}
+})
 
-module.exports = post
+module.exports = router

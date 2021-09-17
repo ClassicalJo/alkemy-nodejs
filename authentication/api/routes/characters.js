@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router()
-var Character = require('../sequelize/models/character')
+var get = require('./characters/get')
+var post = require('./characters/post')
 
-router.get('/', async (req, res, next) => {
-    Character.findAll()
-        .then(res => res.json(res))
-        .catch(err => next(err))
-    //PERFORM THE QUERY TO THE PG SERVER
-});
+router.get('/', get)
+router.post('/', post)
+
+module.exports = router
