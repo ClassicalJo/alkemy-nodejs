@@ -3,11 +3,11 @@ var app = express();
 var jwtCheck = require('./middleware/jwtCheck')
 var routeCharacters = require('./routes/characters')
 var port = process.env.PORT || 8080;
-var sequelize = require('./sequelize/index');
 
+var sequelize = require('./sequelize/index');
 sequelize.authenticate()
-    .then(() => console.log('success'))
-    .catch(err => console.error('fail', err))
+    .then(() => console.log('Sequelize succesfully connected to the PostgreSQL database'))
+    .catch(err => console.error('Sequelize failed to connect to the PostgreSQL database', err))
 
 
 app.use(jwtCheck);
