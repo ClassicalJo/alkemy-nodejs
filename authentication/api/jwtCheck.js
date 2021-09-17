@@ -20,14 +20,14 @@ var jwtCheck = jwt({
 app.use(jwtCheck);
 
 app.get('/authorized', function (req, res) {
-    res.status(200)
+    res.sendStatus(200)
 });
 app.get('/characters', function (req, res) {
     //PERFORM THE QUERY TO THE PG SERVER
-    res.status(200)
+    res.json({characters: "all the characters"})
 });
 app.get('/movies', function (req, res) {
     //PERFORM THE QUERY TO THE PG SERVER
-    res.status(200)
+    res.json({movies: "all the movies"})
 });
 app.listen(port);
