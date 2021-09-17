@@ -11,11 +11,11 @@ router.get('/', async (req, res) => {
         url: authenticationAPIEndPoint,
         headers: { 'Authorization': `${token_type} ${access_token}` }
     })
-        .then(response => {
-            res.json(response.data)
+        .then(() => {
+            res.json({ login: 'successful', token_type, access_token })
         })
         .catch(err => {
-            console.log(err)
+            res.json({ login: 'error', message: err.message })
         })
 })
 
