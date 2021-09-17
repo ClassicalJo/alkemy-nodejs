@@ -1,20 +1,24 @@
 const { DataTypes, Model } = require('sequelize')
-const { STRING, ARRAY } = DataTypes
+const { TEXT, ARRAY } = DataTypes
+const sequelize = require('../index')
 
 class Genre extends Model { }
 Genre.init({
     name: {
-        type: STRING,
+        type: TEXT,
         allowNull: false
     },
     image: {
-        type: URL,
+        type: TEXT,
         allowNull: false
     },
     relatedMovies: {
-        type: ARRAY,
+        type: ARRAY(TEXT),
         allowNull: false
     }
+},{
+    sequelize,
+    modelName: 'Genre'
 })
 
 module.exports = Genre

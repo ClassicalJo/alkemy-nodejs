@@ -1,14 +1,15 @@
 const { DataTypes, Model } = require('sequelize')
-const { STRING, DATE, INTEGER, ARRAY, URL } = DataTypes
+const { TEXT, DATE, INTEGER, ARRAY } = DataTypes
+const sequelize = require('../index')
 
 class Movie extends Model { }
 Movie.init({
     image: {
-        type: URL,
+        type: TEXT,
         allowNull: false,
     },
     title: {
-        type: STRING,
+        type: TEXT,
         allowNull: false,
     },
     creationDate: {
@@ -18,15 +19,18 @@ Movie.init({
     rating: {
         type: INTEGER,
         allowNull: false,
-        validate:{
+        validate: {
             min: 1,
             max: 5,
         }
     },
     relatedCharacters: {
-        type: ARRAY,
+        type: ARRAY(TEXT),
         allowNull: false,
-    }    
+    }
+}, {
+    sequelize,
+    modelName: 'Movie'
 })
 
 module.exports = Movie

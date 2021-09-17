@@ -1,14 +1,15 @@
 const { DataTypes, Model } = require('sequelize')
-const { STRING, INTEGER, ARRAY, DECIMAL, URL } = DataTypes
+const { TEXT, INTEGER, ARRAY, DECIMAL } = DataTypes
+var sequelize = require('../index')
 
-class Character extends Model() { };
+class Character extends Model { };
 Character.init({
     image: {
-        type: URL,
+        type: TEXT,
         allowNull: false,
     },
     name: {
-        type: STRING,
+        type: TEXT,
         allowNull: false,
     },
     age: {
@@ -20,13 +21,16 @@ Character.init({
         allowNull: false,
     },
     story: {
-        type: STRING,
+        type: TEXT,
         allowNull: false,
     },
     movies: {
-        type: ARRAY,
+        type: ARRAY(TEXT),
         allowNull: false,
     }
+}, {
+    sequelize,
+    modelName: 'Character'
 })
 
 module.exports = Character
