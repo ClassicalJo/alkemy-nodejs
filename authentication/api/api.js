@@ -1,8 +1,11 @@
 var express = require('express');
-var app = express();
 var jwtCheck = require('./middleware/jwtCheck')
 var routeCharacters = require('./routes/characters')
 var port = process.env.PORT || 8080;
+var app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 var sequelize = require('./sequelize/index');
 sequelize.authenticate()
