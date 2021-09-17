@@ -10,7 +10,7 @@ router.put('/', (req, res, next) => {
     editableFields.forEach(key => {
         if (req.body[key]) editValues[key] = req.body[key]
     })
-    console.log(editValues)
+    
     Character.update(editValues, { where: { id } })
         .then(response => {
             response == 0 && res.status(200).send("Character ID not found")
