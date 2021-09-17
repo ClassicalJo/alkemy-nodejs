@@ -8,12 +8,6 @@ var charactersRouter = require('./routes/characters')
 var moviesRouter = require('./routes/movies')
 var indexRouter = require('./routes/index')
 
-var sequelize = require('./sequelize/index');
-
-sequelize.authenticate()
-    .then(() => console.log('success'))
-    .catch(err => console.error('fail', err))
-
 var app = express();
 
 app.use(logger('dev'));
