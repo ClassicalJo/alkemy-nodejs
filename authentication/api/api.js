@@ -19,12 +19,11 @@ sequelize.authenticate()
 
 app.use(jwtCheck);
 app.use('/characters', routeCharacters)
+app.use('/movies', routeMovies)
+
 app.get('/authorized', function (req, res) {
     res.sendStatus(200)
 });
 
-app.get('/movies', function (req, res) {
-    //PERFORM THE QUERY TO THE PG SERVER
-    res.json({ movies: "all the movies" })
-});
+
 app.listen(port);
