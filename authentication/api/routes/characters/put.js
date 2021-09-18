@@ -3,20 +3,24 @@ var router = express.Router()
 var Character = require('../../sequelize/models/character')
 
 router.put('/', (req, res, next) => {
-    let { id } = req.body
-    let editableFields = ['name', 'image', 'age', 'weight', 'story', 'movies']
-    let editValues = { id }
+    if (typeof req.body.id !== 'number') return res.status(400).send("ID field must be an integer.")
 
-    editableFields.forEach(key => {
-        if (req.body[key]) editValues[key] = req.body[key]
-    })
-    
-    Character.update(editValues, { where: { id } })
+    Character.update(createEditValues(req.body), { where: { id: req.body.id } })
         .then(response => {
-            response[0] == 0 && res.status(200).send("Character ID not found")
+            response[0] == 0 && res.status(404).send("Character ID not found")
             response[0] !== 0 && res.status(200).send("Character succesfully updated")
         })
-        .catch(err => next(err))
+        .catch(err => {
+            if (err.errors[0].type == 'Validation error') res.status(400).send(err.message)
+            else next(err)
+        })
 })
+
+function createEditValues(obj) {
+    let editValues = {}
+    let fields = ['name', 'image', 'age', 'weight', 'story', 'relatedMovies']
+    fields.forEach(key => { if (obj[key] !== undefined) editValues[key] = obj[key] })
+    return editValues
+}
 
 module.exports = router
