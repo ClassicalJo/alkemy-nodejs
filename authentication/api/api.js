@@ -1,9 +1,13 @@
 var express = require('express');
 var jwtCheck = require('./middleware/jwtCheck')
 var routeCharacters = require('./routes/characters')
+var routeMovies = require('./routes/movies')
+var logger = require('morgan')
+
 var port = process.env.PORT || 8080;
 var app = express();
 
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
