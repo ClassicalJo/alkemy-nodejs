@@ -11,26 +11,54 @@ Character.init({
     name: {
         type: TEXT,
         allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
     },
     age: {
         type: INTEGER,
         allowNull: false,
+        validate: {
+            notEmpty: true,
+            isInt: true
+        }
     },
     weight: {
         type: DECIMAL,
         allowNull: false,
+        validate: {
+            notEmpty: true,
+            isDecimal: true
+        }
     },
     story: {
         type: TEXT,
         allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
     },
-    movies: {
+    relatedMovies: {
         type: ARRAY(TEXT),
         allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
     }
 }, {
     sequelize,
-    modelName: 'Character'
+    modelName: 'Character',
+    validate: {
+        relatedMoviesArrayOfText() {
+            if (!this.relatedMovies) return
+            let reducer = (a, b) => a && b
+            let reduced = this.relatedMovies.reduce((a, b) => reducer(a, typeof b == 'string'), true)
+            let isArray = this.relatedMovies instanceof Array
+            if (!isArray || !reduced) {
+                throw new Error("Error validating related movies, should be an array of text.")
+            }
+        }
+    }
 })
 
 module.exports = Character
