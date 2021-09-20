@@ -3,8 +3,8 @@ var router = express.Router()
 var Movie = require('../../sequelize/models/movie')
 
 router.post('/', (req, res, next) => {
-    let { title, image, creationDate, rating, relatedCharacters } = req.body
-    let movieInstance = Movie.build({ title, image, creationDate, rating, relatedCharacters })
+    let { title, image, creationDate, rating, relatedCharacters, genre } = req.body
+    let movieInstance = Movie.build({ title, image, creationDate, rating, relatedCharacters, genre })
 
     movieInstance
         .validate()
