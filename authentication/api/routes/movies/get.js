@@ -1,15 +1,16 @@
 var express = require('express')
 var router = express.Router()
 var Movie = require('../../sequelize/models/movie')
-var { limitToFields, getAvailableFields, hasQuery } = require('../../../../helpers/index')
+var { limitToFields, hasQuery, isArrayOfInts, getQueriableFieldsFromModel } = require('../../../../helpers/index')
 var { Op } = require('sequelize')
-var fields = getAvailableFields(Movie)
+var fields = getQueriableFieldsFromModel(Movie)
 
 router.get('/', async (req, res, next) => {
     let limitedQueries = limitToFields(req.query, fields)
+
     if (req.query.id) {
-        let id = Number(req.query.id)
-        if (Number.isNaN(id)) return res.status(400).send("ID field must be an integer.")
+        let { id } = req.query
+        if (isNaN(id)) return res.status(400).send("ID field must be an integer.")
         Movie.findOne({ where: { id } })
             .then(response => {
                 if (!response) res.status(404).send('ID not found.')
@@ -18,10 +19,26 @@ router.get('/', async (req, res, next) => {
             .catch(err => next(err))
     }
     else if (hasQuery(limitedQueries)) {
-        let { rating, relatedCharacters } = limitedQueries
-        if (rating && Number.isNaN(Number(rating))) return res.status(400).send("Rating field must be an integer")
-        if (relatedCharacters) limitedQueries.relatedCharacters = { [Op.contains]: [relatedCharacters.split('&&')].flat() }
-        Movie.findAll({ where: limitedQueries })
+        let { rating, relatedCharacters, order } = limitedQueries
+        let searchOptions = { where: limitedQueries }
+
+        if (rating && isNaN(rating)) return res.status(400).send("Rating field must be an integer")
+
+        if (relatedCharacters) {
+            let characters = relatedCharacters.split("&&").map(k => Number(k))
+            if (!isArrayOfInts(characters)) return res.status(400).send("Related characters must be an array of integers")
+
+            searchOptions.where.relatedCharacters = {
+                [Op.contains]: characters
+            }
+        }
+
+        if (order) {
+            searchOptions.order = [['title', order == "DESC" ? "DESC" : "ASC"]]
+            delete searchOptions.where.order
+        }
+
+        Movie.findAll(searchOptions)
             .then(response => res.json(response))
             .catch(err => next(err))
     }
