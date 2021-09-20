@@ -1,4 +1,5 @@
 const { DataTypes, Model } = require('sequelize')
+const { isArrayOfInts } = require('../../../../helpers')
 const { TEXT, DATE, INTEGER, ARRAY } = DataTypes
 const sequelize = require('../index')
 
@@ -60,12 +61,10 @@ Movie.init({
         },
         genreArrayOfInts() {
             if (!this.genre) return
-            let reducer = (a, b) => a && b
-            let reduced = this.genre.reduce((a, b) => reducer(a, !Number.isNaN(Number(b)), true))
-            let isArray = this.genre instanceof Array
-            if (!isArray || !reduced) {
+            if (!isArrayOfInts(this.genre)) {
                 throw new Error("Error validating genre, should be an array of integers.")
             }
+
         }
     }
 })
