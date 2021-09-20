@@ -1,6 +1,6 @@
 const axios = require('axios')
 var express = require('express')
-var authHeader = require('../authentication/app/authHeader')
+var authHeader = require('../auth/authHeader')
 var post = require('./movies/post')
 var get = require('./movies/get')
 var del = require('./movies/delete')

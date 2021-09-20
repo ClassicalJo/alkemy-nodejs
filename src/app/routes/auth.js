@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 let { AUTH0_STATE, AUTH0_ISSUER, AUTH0_CLIENT_ID } = process.env
-let { challenge } = require('../authentication/app/verifier')
+let { challenge } = require('../auth/verifier')
 
 let middleware = (req, res, next) => {
     let url = new URL(`${AUTH0_ISSUER}/authorize`)

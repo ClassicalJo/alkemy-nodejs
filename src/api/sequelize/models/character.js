@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize')
-const { isArrayOfInts } = require('../../../../helpers')
+const { isArrayOfInts } = require('../../../helpers')
 const { TEXT, INTEGER, ARRAY, DECIMAL } = DataTypes
 var sequelize = require('../index')
 

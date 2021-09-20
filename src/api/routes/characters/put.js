@@ -2,7 +2,7 @@ var express = require('express')
 var idCheck = require('../../middleware/idCheck')
 var router = express.Router()
 var Character = require('../../sequelize/models/character')
-var { limitToFields, getFieldsFromModel } = require('../../../../helpers')
+var { limitToFields, getFieldsFromModel } = require('../../../helpers/index')
 
 var fields = getFieldsFromModel(Character)
 

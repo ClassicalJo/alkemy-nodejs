@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 var Movie = require('../../sequelize/models/movie')
 var idCheck = require('../../middleware/idCheck')
-var { limitToFields, getFieldsFromModel } = require('../../../../helpers')
+var { limitToFields, getFieldsFromModel } = require('../../../helpers')
 
 var fields = getFieldsFromModel(Movie)
 

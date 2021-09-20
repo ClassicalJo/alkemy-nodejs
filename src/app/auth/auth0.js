@@ -20,7 +20,7 @@ const auth0 = async (req, res, next) => {
             req.oauth = payload.data
             next()
         })
-        .catch(err => console.log(err.message))
+        .catch(err => next(err))
 
 }
 
