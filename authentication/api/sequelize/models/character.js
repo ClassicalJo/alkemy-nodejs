@@ -1,4 +1,5 @@
 const { DataTypes, Model } = require('sequelize')
+const { isArrayOfInts } = require('../../../../helpers')
 const { TEXT, INTEGER, ARRAY, DECIMAL } = DataTypes
 var sequelize = require('../index')
 
@@ -39,7 +40,7 @@ Character.init({
         }
     },
     relatedMovies: {
-        type: ARRAY(TEXT),
+        type: ARRAY(INTEGER),
         allowNull: false,
         validate: {
             notEmpty: true,
@@ -49,13 +50,10 @@ Character.init({
     sequelize,
     modelName: 'Character',
     validate: {
-        relatedMoviesArrayOfText() {
+        relatedMoviesArrayOfInts() {
             if (!this.relatedMovies) return
-            let reducer = (a, b) => a && b
-            let reduced = this.relatedMovies.reduce((a, b) => reducer(a, typeof b == 'string'), true)
-            let isArray = this.relatedMovies instanceof Array
-            if (!isArray || !reduced) {
-                throw new Error("Error validating related movies, should be an array of text.")
+            if (!isArrayOfInts(this.relatedMovies)) {
+                throw new Error("Error validating related movies, should be an array of integers.")
             }
         }
     }

@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize')
-const { TEXT, ARRAY } = DataTypes
+const { DataTypes, Model, INTEGER } = require('sequelize')
+const { TEXT, ARRAY, INTEGER } = DataTypes
 const sequelize = require('../index')
 
 class Genre extends Model { }
@@ -13,12 +13,20 @@ Genre.init({
         allowNull: false
     },
     relatedMovies: {
-        type: ARRAY(TEXT),
+        type: ARRAY(INTEGER),
         allowNull: false
     }
-},{
+}, {
     sequelize,
-    modelName: 'Genre'
+    modelName: 'Genre',
+    validate: {
+        relatedMoviesArrayOfInts() {
+            if (!this.relatedMovies) return
+            if (!isArrayOfInts(this.relatedMovies)) {
+                throw new Error("Error validating related movies, should be an array of integers.")
+            }
+        }
+    }
 })
 
 module.exports = Genre

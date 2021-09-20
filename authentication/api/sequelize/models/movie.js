@@ -33,7 +33,7 @@ Movie.init({
         }
     },
     relatedCharacters: {
-        type: ARRAY(TEXT),
+        type: ARRAY(INTEGER),
         allowNull: false,
         validate: {
             notEmpty: true,
@@ -50,13 +50,10 @@ Movie.init({
     sequelize,
     modelName: 'Movie',
     validate: {
-        relatedCharactersArrayOfText() {
+        relatedCharactersArrayOfInts() {
             if (!this.relatedCharacters) return
-            let reducer = (a, b) => a && b
-            let reduced = this.relatedCharacters.reduce((a, b) => reducer(a, typeof b == 'string'), true)
-            let isArray = this.relatedCharacters instanceof Array
-            if (!isArray || !reduced) {
-                throw new Error("Error validating related characters, should be an array of text.")
+            if (!isArrayOfInts(this.relatedCharacters)) {
+                throw new Error("Error validating related characters, should be an array of integers.")
             }
         },
         genreArrayOfInts() {
@@ -64,10 +61,8 @@ Movie.init({
             if (!isArrayOfInts(this.genre)) {
                 throw new Error("Error validating genre, should be an array of integers.")
             }
-
         }
     }
 })
-
 
 module.exports = Movie
