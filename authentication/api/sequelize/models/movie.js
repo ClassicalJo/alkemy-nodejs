@@ -37,6 +37,13 @@ Movie.init({
         validate: {
             notEmpty: true,
         }
+    },
+    genre: {
+        type: ARRAY(INTEGER),
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     }
 }, {
     sequelize,
@@ -50,8 +57,18 @@ Movie.init({
             if (!isArray || !reduced) {
                 throw new Error("Error validating related characters, should be an array of text.")
             }
+        },
+        genreArrayOfInts() {
+            if (!this.genre) return
+            let reducer = (a, b) => a && b
+            let reduced = this.genre.reduce((a, b) => reducer(a, !Number.isNaN(Number(b)), true))
+            let isArray = this.genre instanceof Array
+            if (!isArray || !reduced) {
+                throw new Error("Error validating genre, should be an array of integers.")
+            }
         }
     }
 })
+
 
 module.exports = Movie
