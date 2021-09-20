@@ -4,6 +4,7 @@ var Character = require('../../sequelize/models/character')
 
 router.post('/', (req, res, next) => {
     let { name, image, age, weight, story, relatedMovies } = req.body
+    
     characterInstance = Character.build({ name, image, age, weight, story, relatedMovies })
     characterInstance
         .validate()
