@@ -1,13 +1,18 @@
 function limitToFields(obj, fields) {
     let response = {}
     fields.forEach(key => {
-        if (obj[key] !== undefined) response[key] = obj[key]
+        if (obj[key] !== undefined && obj[key].length > 0) response[key] = obj[key]
     })
     return response
 }
 
-function getAvailableFields(model) {
-    return Object.keys({ ...model.rawAttributes, order: "DESC" }).filter(k => nonAvailableFields(k))
+function getFieldsFromModel(model) {
+    return Object.keys(model.rawAttributes).filter(k => nonAvailableFields(k))
+}
+
+function getQueriableFieldsFromModel(model) {
+    return fields = [...Object.keys(model.rawAttributes), 'order'].filter(k => nonAvailableFields(k))
+
 }
 
 function nonAvailableFields(field) {
@@ -25,5 +30,17 @@ function isArrayOfInts(arr) {
     return isArray && reduced
 }
 
-let helpers = { limitToFields, nonAvailableFields, getAvailableFields, hasQuery, isArrayOfInts }
+function isNaN(any) {
+    return Number.isNaN(Number(any))
+}
+
+let helpers = {
+    limitToFields,
+    nonAvailableFields,
+    getFieldsFromModel,
+    getQueriableFieldsFromModel,
+    hasQuery,
+    isArrayOfInts,
+    isNaN,
+}
 module.exports = helpers
