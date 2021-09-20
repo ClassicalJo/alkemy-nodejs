@@ -25,13 +25,9 @@ function hasQuery(obj) {
 
 function isArrayOfInts(arr) {
     let reducer = (a, b) => a && b
-    let reduced = arr.reduce((a, b) => reducer(a, !Number.isNaN(Number(b)), true))
+    let reduced = arr.reduce((a, b) => reducer(a, !isNaN(b), true))
     let isArray = arr instanceof Array
     return isArray && reduced
-}
-
-function isNaN(any) {
-    return Number.isNaN(Number(any))
 }
 
 let helpers = {
@@ -41,6 +37,5 @@ let helpers = {
     getQueriableFieldsFromModel,
     hasQuery,
     isArrayOfInts,
-    isNaN,
 }
 module.exports = helpers

@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var Character = require('../../sequelize/models/character')
-var { limitToFields, hasQuery, getQueriableFieldsFromModel, isNaN } = require('../../../../helpers/index')
+var { limitToFields, hasQuery, getQueriableFieldsFromModel } = require('../../../../helpers/index')
 var { Op } = require('sequelize')
 
 var fields = getQueriableFieldsFromModel(Character)
