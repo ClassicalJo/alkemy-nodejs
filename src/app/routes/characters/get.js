@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
     axios
         .get(APIEndpoint.toString(), options)
         .then(response => res.json(response.data))
-        .catch(err => res.json({ error: 'error', message: err.message }))
+        .catch(err => next(err))
 })
 
 module.exports = router

@@ -6,7 +6,7 @@ let put = (req, res, next) => {
     axios
         .put(APIEndpoint, req.body, options)
         .then(response => res.json(response.data))
-        .catch(err => res.json({ error: 'error', message: err.message }))
+        .catch(err => next(err))
 }
 
 module.exports = put

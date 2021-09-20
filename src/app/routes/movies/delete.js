@@ -9,7 +9,7 @@ router.delete('/', (req, res, next) => {
     axios
         .delete(APIEndpoint, options)
         .then(response => res.json(response.data))
-        .catch(err => res.json({ error: 'error', message: err.message }))
+        .catch(err => next(err))
 })
 
 module.exports = router
