@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
             .catch(err => next(err))
     }
     else if (hasQuery(limitedQueries)) {
-        let { title, rating, relatedCharacters, order } = limitedQueries
+        let { title, creationDate, rating, relatedCharacters, genre, order } = limitedQueries
         let searchOptions = { where: limitedQueries }
 
         if (rating && isNaN(rating)) return res.status(400).send("Rating field must be an integer")
@@ -29,12 +29,26 @@ router.get('/', async (req, res, next) => {
                 [Op.regexp]: title.toLowerCase()
             }
         }
+
+        if (creationDate) {
+            searchOptions.creationDate = new Date(creationDate)
+        }
+
         if (relatedCharacters) {
             let characters = relatedCharacters.split("&&").map(k => Number(k))
             if (!isArrayOfInts(characters)) return res.status(400).send("Related characters must be an array of integers")
 
             searchOptions.where.relatedCharacters = {
                 [Op.contains]: characters
+            }
+        }
+
+        if (genre) {
+            let genres = genre.split('&&').map(k => Number(k))
+            if (!isArrayOfInts(genres)) return res.status(400).send("Related characters must be an array of integers")
+            
+            searchOptions.where.genre = {
+                [Op.contains]: genres
             }
         }
 
