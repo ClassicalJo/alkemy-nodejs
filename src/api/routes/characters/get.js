@@ -19,11 +19,17 @@ router.get('/', async (req, res, next) => {
             .catch(err => next(err))
     }
     else if (hasQuery(limitedQueries)) {
-        let { age, weight, relatedMovies, order } = limitedQueries
+        let { name, age, weight, relatedMovies, order } = limitedQueries
         let searchOptions = { where: limitedQueries }
 
         if (age && isNaN(age)) return res.status(400).send("Age field must be an integer")
         if (weight && isNaN(weight)) return res.status(400).send("Weight field must be an integer")
+
+        if (name) {
+            searchOptions.where.name = {
+                [Op.regexp]: name.toLowerCase()
+            }
+        }
 
         if (relatedMovies) {
             let movies = relatedMovies.split('&&').map(k => Number(k))

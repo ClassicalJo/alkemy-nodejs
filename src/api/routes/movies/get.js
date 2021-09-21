@@ -19,11 +19,16 @@ router.get('/', async (req, res, next) => {
             .catch(err => next(err))
     }
     else if (hasQuery(limitedQueries)) {
-        let { rating, relatedCharacters, order } = limitedQueries
+        let { title, rating, relatedCharacters, order } = limitedQueries
         let searchOptions = { where: limitedQueries }
 
         if (rating && isNaN(rating)) return res.status(400).send("Rating field must be an integer")
 
+        if (title) {
+            searchOptions.where.title = {
+                [Op.regexp]: title.toLowerCase()
+            }
+        }
         if (relatedCharacters) {
             let characters = relatedCharacters.split("&&").map(k => Number(k))
             if (!isArrayOfInts(characters)) return res.status(400).send("Related characters must be an array of integers")
