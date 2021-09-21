@@ -24,10 +24,13 @@ function hasQuery(obj) {
 }
 
 function isArrayOfInts(arr) {
+    let isArray = arr instanceof Array
+    if(!isArray) return false
+
     let reducer = (a, b) => a && b
     let reduced = arr.reduce((a, b) => reducer(a, !isNaN(b), true))
-    let isArray = arr instanceof Array
-    return isArray && reduced
+    if(!reduced) return false
+    return true
 }
 
 let helpers = {
